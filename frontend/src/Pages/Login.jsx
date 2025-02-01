@@ -5,6 +5,9 @@ function Login() {
     <div>
         Enter your PRN Number
         <input type='number'/>
+        Enter your Password
+        <input type ="password"/>
+        <button type ="button"> Login</button>
     </div>
   )
 }
