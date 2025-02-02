@@ -2,6 +2,8 @@
 <section name="Workbench">
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="C:\Users\Hp\Desktop\git-frontend\E-Canteen\backend"/>
+			<item value="C:\Users\Hp\Desktop\git-frontend\E-Canteen\"/>
 			<item value="C:\Users\asus\OneDrive\Desktop\E-Canteen"/>
 		</list>
 		<list key="projectNameTemplate">
