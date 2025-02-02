@@ -11,18 +11,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Menu {
 
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String name;
     private String description;
     private Double price;
-    
+
     @Enumerated(EnumType.STRING)
     private MenuCategory category;
-    
+
     private boolean available;
+
+    @ManyToOne
+    @JoinColumn(name = "vendor_id")
+    private Vendor vendor; 
 
 	public Long getId() {
 		return id;
@@ -71,6 +75,5 @@ public class Menu {
 	public void setAvailable(boolean available) {
 		this.available = available;
 	}
-    
-    
+      
 }
