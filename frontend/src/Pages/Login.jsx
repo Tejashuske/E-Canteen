@@ -1,63 +1,55 @@
-import React from 'react'
+import { useState } from "react";
 
-function Login() {
-  return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>E-Canteen</h1>
-      
-      <label style={styles.label}>Enter your UserID:</label>
-      <input type="number" style={styles.input} />
+const Login = () => {
+    const [formData, setFormData] = useState({ userid: "", password: "" });
 
-      <label style={styles.label}>Enter your Password:</label>
-      <input type="password" style={styles.input} />
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
 
-      <button type="button" style={styles.button}>Login</button>
-    </div>
-  );
-}
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log("Submitted Data:", formData);
+        // Add authentication logic here
+    };
 
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '300px', 
-    padding: '20px',
-    backgroundColor: '#f8f9fa',
-    borderRadius: '8px',
-    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-    margin: '50px auto', 
-  },
-  title: {
-    fontSize: '24px',
-    marginBottom: '15px',
-    color: '#333',
-  },
-  label: {
-    fontSize: '16px',
-    marginBottom: '5px',
-    color: '#555',
-  },
-  input: {
-    width: '100%',
-    padding: '10px',
-    marginBottom: '10px',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-    outline: 'none',
-  },
-  button: {
-    backgroundColor: '#007bff',
-    color: 'white',
-    padding: '10px 20px',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    marginTop: '10px',
-    width: '100%',
-    fontSize: '16px',
-  },
+    return (
+        <div className="flex justify-center items-center h-screen w-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/Images/Background.jpg')" }}>
+            <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+                <h2 className="mb-5 text-gray-800 text-xl font-semibold">Login</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-4 text-left">
+                        <label htmlFor="userid" className="block font-bold mb-1">User ID</label>
+                        <input
+                            type="text"
+                            id="userid"
+                            name="userid"
+                            value={formData.userid}
+                            onChange={handleChange}
+                            className="w-full p-2 border border-gray-300 rounded"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4 text-left">
+                        <label htmlFor="password" className="block font-bold mb-1">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            className="w-full p-2 border border-gray-300 rounded"
+                            required
+                        />
+                    </div>
+                    <button type="submit" className="w-full p-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition">
+                        Submit
+                    </button>
+                </form>
+            </div>
+        </div>
+    );
 };
 
 export default Login;
