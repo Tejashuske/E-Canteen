@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { Button } from "react-bootstrap";
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ totalAmount }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
@@ -13,7 +13,6 @@ const CheckoutForm = () => {
 
     setLoading(true);
 
-    // Create payment method
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(CardElement),
@@ -21,45 +20,19 @@ const CheckoutForm = () => {
 
     if (error) {
       setLoading(false);
-      console.error(error);
+      alert(error.message);
     } else {
-      console.log("Payment Method:", paymentMethod);
-
-      // Send payment method to the backend for processing
-      try {
-        const response = await fetch("http://localhost:8080/api/payment", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            paymentMethodId: paymentMethod.id,
-          }),
-        });
-
-        const paymentResponse = await response.json();
-        if (paymentResponse.success) {
-          setLoading(false);
-          alert("Payment successful!");
-        } else {
-          setLoading(false);
-          alert("Payment failed. Please try again.");
-        }
-      } catch (error) {
-        setLoading(false);
-        console.error(error);
-        alert("Payment failed. Please try again.");
-      }
+      console.log("Payment Successful:", paymentMethod);
+      setLoading(false);
+      alert("Payment successful!");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <CardElement />
-      </div>
-      <Button type="submit" disabled={loading || !stripe}>
-        {loading ? "Processing..." : "Pay Now"}
+    <form onSubmit={handleSubmit} className="text-center">
+      <CardElement />
+      <Button type="submit" disabled={!stripe || loading} className="mt-3">
+        {loading ? "Processing..." : `Pay ₹${totalAmount}`}
       </Button>
     </form>
   );

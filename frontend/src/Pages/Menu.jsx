@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Button, Card, Container, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import LogoutButton from "../Components/LogoutButton"; // Import the Logout Button
 
 const MenuPage = () => {
   const [menu, setMenu] = useState([]);
-  const navigate = useNavigate();
-  
+  const [cart, setCart] = useState([]);
+
   useEffect(() => {
     const fetchMenu = async () => {
       try {
@@ -16,34 +17,40 @@ const MenuPage = () => {
         console.error("Error fetching menu:", error);
       }
     };
-    
     fetchMenu();
   }, []);
-  
-  const handlePayment = () => {
-    // Redirect to Payment Page
-    navigate("/payment");
+
+  const addToCart = (item) => {
+    setCart([...cart, item]);
   };
 
   return (
-    <div>
-      <h3>Today's Menu</h3>
-      {menu.length > 0 ? (
-        <ul>
-          {menu.map((item) => (
-            <li key={item.id}>
-              <h5>{item.dishName}</h5>
-              <p>{item.description}</p>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No menu available for today.</p>
+    <Container>
+      <LogoutButton /> {/* Add Logout Button */}
+      <h3 className="text-center my-4">Today's Menu</h3>
+      <Row>
+        {menu.map((item) => (
+          <Col key={item.id} md={4}>
+            <Card className="mb-3">
+              <Card.Body>
+                <Card.Title>{item.dishName}</Card.Title>
+                <Card.Text>{item.description}</Card.Text>
+                <Card.Text>Price: ₹{item.price}</Card.Text>
+                <Button onClick={() => addToCart(item)}>Add to Cart</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      {cart.length > 0 && (
+        <div className="text-center mt-4">
+          <Link to="/cart" state={{ cart }}>
+            <Button variant="success">View Cart ({cart.length} items)</Button>
+          </Link>
+        </div>
       )}
-      
-      {/* Payment Button */}
-      <Button onClick={handlePayment}>Proceed to Payment</Button>
-    </div>
+    </Container>
   );
 };
 
