@@ -1,0 +1,15 @@
+.home-container {
+    min-height: 100vh;
+    background: url('https://source.unsplash.com/1600x900/?food,canteen') no-repeat center center/cover;
+    color: white;
+  }
+  
+  .hero-section {
+    padding: 100px 0;
+    text-align: left;
+  }
+  
+  .navbar a {
+    color: black;
+    font-weight: bold;
+  }  
