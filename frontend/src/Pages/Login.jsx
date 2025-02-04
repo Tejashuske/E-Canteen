@@ -1,63 +1,73 @@
-import React from 'react'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Button, Form } from "react-bootstrap";
 
-function Login() {
+const Login = () => {
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Send login request to backend
+      const response = await axios.post("http://localhost:8080/api/login", {
+        id,
+        password,
+      });
+
+      // Extract the role from the response
+      const { role } = response.data;
+
+      // Redirect based on role
+      if (role === "admin") {
+        navigate("/admin-dashboard");
+      } else if (role === "vendor") {
+        navigate("/vendor-page");
+      } else if (role === "student") {
+        navigate("/menu");
+      } else {
+        setError("Invalid role.");
+      }
+    } catch (err) {
+      setError("Login failed. Please check your credentials.");
+    }
+  };
+
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>E-Canteen</h1>
-      
-      <label style={styles.label}>Enter your UserID:</label>
-      <input type="number" style={styles.input} />
+    <div className="login-container">
+      <h2>Login</h2>
+      {error && <p className="text-danger">{error}</p>}
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="formBasicId">
+          <Form.Label>ID</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter ID"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+          />
+        </Form.Group>
 
-      <label style={styles.label}>Enter your Password:</label>
-      <input type="password" style={styles.input} />
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Form.Group>
 
-      <button type="button" style={styles.button}>Login</button>
+        <Button variant="primary" type="submit">
+          Login
+        </Button>
+      </Form>
     </div>
   );
-}
-
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '300px', 
-    padding: '20px',
-    backgroundColor: '#f8f9fa',
-    borderRadius: '8px',
-    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-    margin: '50px auto', 
-  },
-  title: {
-    fontSize: '24px',
-    marginBottom: '15px',
-    color: '#333',
-  },
-  label: {
-    fontSize: '16px',
-    marginBottom: '5px',
-    color: '#555',
-  },
-  input: {
-    width: '100%',
-    padding: '10px',
-    marginBottom: '10px',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-    outline: 'none',
-  },
-  button: {
-    backgroundColor: '#007bff',
-    color: 'white',
-    padding: '10px 20px',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    marginTop: '10px',
-    width: '100%',
-    fontSize: '16px',
-  },
 };
 
 export default Login;
