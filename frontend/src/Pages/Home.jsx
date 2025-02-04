@@ -4,18 +4,22 @@ import "./Home.css";
 
 const Home = () => {
   return (
-    <div className="home-container">
-      <header className="navbar navbar-expand-lg navbar-light bg-light">
-        <Container>
-          <a className="navbar-brand" href="/">🍽️ E-Canteen</a>
-          <div className="ml-auto">
-            <a href="/" className="nav-link d-inline px-3">Home</a>
-            <a href="/about" className="nav-link d-inline px-3">About Us</a>
-            <a href="/login" className="btn btn-primary">Login</a>
+    <div className="home-container row">
+      <nav class="">
+        <div class="container-fluid nvmenu">
+          <div class="navbar-header">
+            <a class="" href="#">WebSiteName</a>
           </div>
-        </Container>
-      </header>
-
+          <div>
+            <ul class="nav navbar-nav rightmenu">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#">Page 1</a></li>
+              <li><a href="#">Page 2</a></li>
+              <li><a href="#">Page 3</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
       <div className="hero-section">
         <Container>
           <Row className="align-items-center">

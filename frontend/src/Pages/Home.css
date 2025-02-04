@@ -2,6 +2,7 @@
     min-height: 100vh;
     background: url('https://source.unsplash.com/1600x900/?food,canteen') no-repeat center center/cover;
     color: white;
+    padding-top: 15px;
   }
   
   .hero-section {
@@ -13,3 +14,15 @@
     color: black;
     font-weight: bold;
   }  
+
+  .nvmenu{
+    display: flex
+;
+    justify-content: space-between;
+    background: #fff;
+    padding: 10px;
+  }
+
+  .rightmenu{
+    flex-direction: row;
+  }
