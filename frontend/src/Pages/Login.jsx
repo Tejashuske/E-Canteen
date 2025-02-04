@@ -38,7 +38,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="login-container col-md-6 m-auto mb-3">
       <h2>Login</h2>
       {error && <p className="text-danger">{error}</p>}
       <Form onSubmit={handleSubmit}>
@@ -46,19 +46,9 @@ const Login = () => {
           <Form.Label>ID</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter ID"
+            placeholder="Enter PRN ID"
             value={id}
             onChange={(e) => setId(e.target.value)}
-          />
-        </Form.Group>
-
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Enter Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
 
@@ -68,4 +58,5 @@ const Login = () => {
       </Form>
     </div>
   );
+}
 export default Login;

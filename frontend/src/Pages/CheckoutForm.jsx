@@ -1,41 +1,69 @@
-import React, { useState } from "react";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { Button } from "react-bootstrap";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const CheckoutForm = ({ totalAmount }) => {
-  const stripe = useStripe();
-  const elements = useElements();
-  const [loading, setLoading] = useState(false);
+function CheckoutForm({ cart }) {
+  const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (!stripe || !elements) return;
+  // Ensure cart is an array (even if it's undefined, it defaults to an empty array)
+  const cartItems = cart || [];
 
-    setLoading(true);
+  // Calculate the total price safely
+  const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card: elements.getElement(CardElement),
-    });
-
-    if (error) {
-      setLoading(false);
-      alert(error.message);
-    } else {
-      console.log("Payment Successful:", paymentMethod);
-      setLoading(false);
-      alert("Payment successful!");
-    }
+  // Handle form submission (for checkout)
+  const handlePlaceOrder = (e) => {
+    e.preventDefault();
+    alert('Order placed successfully!');
+    navigate('/'); // Redirect to homepage (or other page after checkout)
   };
 
   return (
-    <form onSubmit={handleSubmit} className="text-center">
-      <CardElement />
-      <Button type="submit" disabled={!stripe || loading} className="mt-3">
-        {loading ? "Processing..." : `Pay ₹${totalAmount}`}
-      </Button>
-    </form>
+    <div className="checkout-page">
+      <h1>Checkout</h1>
+      
+      {/* Cart Summary */}
+      <div className="cart-summary">
+        <h2>Your Order</h2>
+        {cartItems.length === 0 ? (
+          <p>Your cart is empty!</p>
+        ) : (
+          <ul>
+            {cartItems.map((item, index) => (
+              <li key={index}>
+                {item.name} - {item.quantity} x ${item.price} = ${item.price * item.quantity}
+              </li>
+            ))}
+          </ul>
+        )}
+        <p><strong>Total: ${totalPrice}</strong></p>
+      </div>
+
+      {/* User Details Form */}
+      <form onSubmit={handlePlaceOrder}>
+        <div>
+          <label>Name:</label>
+          <input type="text" name="name" required />
+        </div>
+
+        <div>
+          <label>Address:</label>
+          <textarea name="address" required />
+        </div>
+
+        <div>
+          <label>Payment Method:</label>
+          <select name="paymentMethod" required>
+            <option value="Credit Card">Credit Card</option>
+            <option value="PayPal">PayPal</option>
+            <option value="Bank Transfer">Bank Transfer</option>
+          </select>
+        </div>
+
+        {/* Submit Order Button */}
+        <button type="submit">Place Order</button>
+      </form>
+    </div>
   );
-};
+}
 
 export default CheckoutForm;
