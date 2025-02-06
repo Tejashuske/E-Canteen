@@ -8,5 +8,5 @@ import com.server.entity.User;
 
 public interface UserRepository extends JpaRepository<User, String>{
 
-	
+	User findByUserName(String userName);
 }
