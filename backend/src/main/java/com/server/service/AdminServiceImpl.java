@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.server.dto.UserDTO;
+import com.server.entity.USER_ROLE;
 import com.server.entity.User;
-import com.server.repository.UserRepository;
+import com.server.repository.AdminRepository;
 
 
 @Service
@@ -20,12 +21,13 @@ public class AdminServiceImpl implements AdminService{
 	SessionFactory hibernateFactory;
 	
 	@Autowired
-	UserRepository repository;
+	AdminRepository repository;
 	
 	@Override
-	public boolean addUser(UserDTO dto) {
+	public boolean addStudent(UserDTO dto) {
 		User entityUser = new User();
 		BeanUtils.copyProperties(dto, entityUser);
+		entityUser.setRole(USER_ROLE.ROLE_STUDENT);
 
 		try (Session hibernateSession = hibernateFactory.openSession()) {
 			hibernateSession.beginTransaction();
@@ -36,7 +38,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public boolean removeUser(String userName) {
+	public boolean removeStudent(String userName) {
 		try (Session hibernateSession = hibernateFactory.openSession()) {
 			User userEntity = hibernateSession.get(User.class, userName);
             hibernateSession.beginTransaction();
@@ -50,7 +52,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public boolean updateUser(String userName, UserDTO dto) {
+	public boolean updateStudent(String userName, UserDTO dto) {
 	    try (Session hibernateSession = hibernateFactory.openSession()) {
 	        User userEntity = hibernateSession.get(User.class, userName);
 
@@ -60,7 +62,6 @@ public class AdminServiceImpl implements AdminService{
 
 	        hibernateSession.beginTransaction();
 	        
-	        userEntity.setUserName(dto.getUserName());
 	        userEntity.setPassword(dto.getPassword());
 	        
 	        hibernateSession.merge(userEntity);
@@ -73,7 +74,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public User getUser(String userName) {
+	public User getStudent(String userName) {
 	    try (Session hibernateSession = hibernateFactory.openSession()) {
 	    	User userEntity = hibernateSession.get(User.class, userName);
 	        return userEntity;
@@ -84,8 +85,27 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<User> getAllUsers() {
-		return repository.findAll();
+	public List<User> getAllStudents() {
+		return repository.getAllStudents();
+	}
+
+	@Override
+	public boolean addVendor(UserDTO dto) {
+		User entityUser = new User();
+		BeanUtils.copyProperties(dto, entityUser);
+		entityUser.setRole(USER_ROLE.ROLE_VENDOR);
+
+		try (Session hibernateSession = hibernateFactory.openSession()) {
+			hibernateSession.beginTransaction();
+			hibernateSession.persist(entityUser);
+			hibernateSession.getTransaction().commit();
+		}
+		return true;
+	}
+
+	@Override
+	public List<User> getAllVendors() {
+		return repository.getAllVendors();
 	}
 
 }

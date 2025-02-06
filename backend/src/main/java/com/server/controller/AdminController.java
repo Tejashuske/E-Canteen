@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.server.dto.UserDTO;
 import com.server.entity.User;
-import com.server.repository.UserRepository;
 import com.server.service.AdminService;
 
 @RestController
@@ -24,31 +23,39 @@ public class AdminController {
 	@Autowired
 	AdminService service;
 	
-	@Autowired
-	UserRepository userRepository;
 
 	@PostMapping("/addUser")
 	public boolean addUser(@RequestBody UserDTO dto) {
-		return service.addUser(dto);
+		return service.addStudent(dto);
 	}
 
 	@DeleteMapping("/removeUser/{userName}")
 	public boolean removeUser(@PathVariable("userName") String userName) {
-		return service.removeUser(userName);
+		return service.removeStudent(userName);
 	}
 
 	@PutMapping("/updateUser/{userName}")
 	public boolean updateUser(@PathVariable("userName") String userName,@RequestBody UserDTO dto) {
-		return service.updateUser(userName, dto);
+		return service.updateStudent(userName, dto);
 	}
 
 	@GetMapping("/getUser/{userName}")
 	public User getUser(@PathVariable("userName") String userName) {
-		return service.getUser(userName);
+		return service.getStudent(userName);
 	}
 	
 	@GetMapping("/getAllUsers")
 	public List<User> getAllUsers() {
-		return service.getAllUsers();
+		return service.getAllStudents();
+	}
+	
+	@PostMapping("/addVendor")
+	public boolean addVendor(@RequestBody UserDTO dto) {
+		return service.addVendor(dto);
+	}
+	
+	@GetMapping("/getAllVendors")
+	public List<User> getAllVendors() {
+		return service.getAllVendors();
 	}
 }

@@ -6,6 +6,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Cart {
@@ -13,10 +16,17 @@ public class Cart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private User student;
-	private Long total;
-	List<Menu> menuList;
 	
+	private Long total;
+	
+	@ManyToMany
+    @JoinTable(
+        name = "cart_menu",
+        		joinColumns = @JoinColumn(name = "cart_id"),
+                inverseJoinColumns = @JoinColumn(name = "menu_id")
+    )
+	private List<Menu> menuList;
+
 
 	public Long getId() {
 		return id;
@@ -24,12 +34,7 @@ public class Cart {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public User getStudent() {
-		return student;
-	}
-	public void setStudent(User student) {
-		this.student = student;
-	}
+
 	public Long getTotal() {
 		return total;
 	}
@@ -42,6 +47,5 @@ public class Cart {
 	public void setMenuList(List<Menu> menuList) {
 		this.menuList = menuList;
 	}
-	
 	
 }

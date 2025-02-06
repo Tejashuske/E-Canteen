@@ -3,6 +3,8 @@ package com.server.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -16,6 +18,10 @@ public class User {
 	
 	@Column(name = "password")
     private String password;
+	
+	@Column(name = "role")
+	@Enumerated(EnumType.STRING)
+	private USER_ROLE role;
 	
 
 	public String getUserName() {
@@ -34,5 +40,11 @@ public class User {
 		this.password = password;
 	}
 
-	
+	public USER_ROLE getRole() {
+		return role;
+	}
+
+	public void setRole(USER_ROLE role) {
+		this.role = role;
+	}
 }

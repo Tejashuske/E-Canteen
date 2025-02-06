@@ -7,9 +7,11 @@ import com.server.entity.User;
 
 public interface AdminService {
 
-	boolean addUser(UserDTO dto);
-	boolean removeUser(String userName);
-	boolean updateUser(String userName, UserDTO dto);
-	User getUser(String userName);
-	List<User> getAllUsers();
+	boolean addStudent(UserDTO dto);
+	boolean removeStudent(String userName);
+	boolean updateStudent(String userName, UserDTO dto);
+	User getStudent(String userName);
+	List<User> getAllStudents();
+	boolean addVendor(UserDTO dto);
+	List<User> getAllVendors();
 }
