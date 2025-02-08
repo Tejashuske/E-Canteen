@@ -3,6 +3,7 @@ package com.server.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import com.server.service.VendorService;
 
 @RestController
 @RequestMapping("/vendor")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class VendorController {
 
 	@Autowired

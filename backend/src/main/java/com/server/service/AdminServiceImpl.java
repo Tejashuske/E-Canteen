@@ -62,6 +62,7 @@ public class AdminServiceImpl implements AdminService{
 
 	        hibernateSession.beginTransaction();
 	        
+	        userEntity.setName(dto.getName());
 	        userEntity.setPassword(dto.getPassword());
 	        
 	        hibernateSession.merge(userEntity);

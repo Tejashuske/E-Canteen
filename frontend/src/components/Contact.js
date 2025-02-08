@@ -18,7 +18,6 @@ const Contact = () => {
         <p>📍 <strong>Location:</strong> <span className="highlight">e-Canteen, C-DAC Pashan, Pune</span></p>
 
         <hr />
-
         <h3>Rate Your Experience</h3>
         <div className="star-rating">
           {[1, 2, 3, 4, 5].map((index) => (
