@@ -88,7 +88,6 @@ const StudentList = () => {
         <table>
           <thead>
             <tr>
-              <th>ID</th>
               <th>Name</th>
               <th>Username</th>
               <th>Actions</th>
@@ -97,7 +96,6 @@ const StudentList = () => {
           <tbody>
             {students.map((student) => (
               <tr key={student.id}>
-                <td>{student.id}</td>
                 <td>{student.name}</td>
                 <td>{student.userName}</td> {/* Use 'userName' as per backend response */}
                 <td>
