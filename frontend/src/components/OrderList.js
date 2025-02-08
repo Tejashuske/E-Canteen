@@ -6,13 +6,15 @@ const OrderList = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
 
-  // Fetch orders from database
+  // Fetch orders from the backend
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/orders/getAllOrders", { withCredentials: true });
+        const response = await axios.get("http://localhost:8080/orders/getAllOrders", {
+          withCredentials: true,
+        });
         if (response.status === 200) {
-          setOrders(response.data); // ✅ Corrected: No extra array wrapping
+          setOrders(response.data);
         }
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -22,17 +24,18 @@ const OrderList = () => {
     fetchOrders();
   }, []);
 
-  // Remove order from database
+  // Remove an order from the database
   const removeOrder = async (id) => {
-    if (window.confirm("Are you sure you want to remove this order?")) {
-      try {
-        await axios.delete(`http://localhost:8080/orders/deleteOrder/${id}`, { withCredentials: true });
-        setOrders(orders.filter((order) => order.id !== id)); // Update state
-      } catch (error) {
-        console.error("Error removing order:", error);
-      }
+    try {
+      await axios.delete(`http://localhost:8080/orders/cancelOrder/${id}`, {
+        withCredentials: true,
+      });
+      setOrders((prevOrders) => prevOrders.filter((order) => order.orderId !== id)); // ✅ Use functional update
+    } catch (error) {
+      console.error("Error removing order:", error);
     }
   };
+  
 
   return (
     <div style={styles.container}>
@@ -49,21 +52,26 @@ const OrderList = () => {
           </thead>
           <tbody>
             {orders.map((order) => (
-              <tr key={order.id}>
-                <td>{order.id}</td>
+              <tr key={order.orderId}> {/* ✅ Updated key */}
+                <td>{order.orderId}</td> {/* ✅ Use order.orderId */}
                 <td>{order.studentName}</td>
                 <td>₹{order.total}</td>
                 <td>
-                  <button style={styles.removeBtn} onClick={() => removeOrder(order.id)}>❌ Remove</button>
+                  <button style={styles.removeBtn} onClick={() => removeOrder(order.orderId)}>
+                    ❌ Remove
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
+
         </table>
       ) : (
         <p style={styles.noOrders}>No orders available</p>
       )}
-      <button onClick={() => navigate("/vendor")} style={styles.backBtn}>⬅ Back</button>
+      <button onClick={() => navigate("/vendor")} style={styles.backBtn}>
+        ⬅ Back
+      </button>
     </div>
   );
 };

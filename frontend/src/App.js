@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import About from "./components/About";
@@ -17,10 +17,20 @@ import AddItemPage from "./components/AddItemPage";
 import MenuList from "./components/MenuList";
 import OrderList from "./components/OrderList";
 
-
 function App() {
-  const [user, setUser] = useState(null); // Stores logged-in user details
-  const [cart, setCart] = useState([]);
+  const [user, setUser] = useState(
+    () => sessionStorage.getItem("userRole") || null
+  );
+
+  const [cart, setCart] = useState([]); // ✅ Define cart state here
+
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem("userRole");
+    if (storedUser) {
+      setUser(storedUser);
+    }
+  }, []);
+
   return (
     <Router>
       <Header user={user} setUser={setUser} />
@@ -30,17 +40,18 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
-
-          <Route path="/student" element={<StudentPage cart={cart} setCart={setCart} />} />
-          <Route path="/cart" element={<CartPage setCart={setCart} />} />
-
+          <Route
+            path="/student"
+            element={<StudentPage cart={cart} setCart={setCart} />}
+          />{" "}
+          {/* ✅ Pass cart and setCart */}
+          <Route path="/cart" element={<CartPage />} />
           <Route path="/receipt" element={<Receipt />} />
           <Route path="/vendor" element={<VendorPage />} />
           <Route path="/add-item" element={<AddItemPage />} />
           <Route path="/vendor-list" element={<VendorList />} />
           <Route path="/menu-list" element={<MenuList />} />
           <Route path="/order-list" element={<OrderList />} />
-          <Route path="/admin" element={<AdminPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/students" element={<StudentList />} />
           <Route path="/add-student" element={<StudentForm />} />
