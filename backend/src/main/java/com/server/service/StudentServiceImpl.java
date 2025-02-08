@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.server.entity.Cart;
 import com.server.entity.Menu;
+import com.server.repository.CartRepository;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -17,6 +18,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private SessionFactory hibernateFactory;
+    
+    @Autowired
+    private CartRepository cartRepository;
 
     @Autowired
     private HttpSession session; // Inject HttpSession
@@ -72,4 +76,9 @@ public class StudentServiceImpl implements StudentService {
             return false;
         }
     }
+    
+    public List<Cart> getCartItems() {
+        return cartRepository.findAll(); // Assuming cartRepository exists
+    }
+
 }

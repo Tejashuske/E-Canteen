@@ -26,7 +26,6 @@ public class Menu {
 	@Column(name = "price")
     private Double price;
 	
-    
 	public Long getId() {
 		return id;
 	}
