@@ -22,17 +22,15 @@ const MenuList = () => {
 
   // Handle removing an item from the menu
   const removeItem = async (id) => {
-    if (window.confirm("Are you sure you want to remove this item?")) {
-      try {
-        const response = await axios.delete(`http://localhost:8080/vendor/removeMenu/${id}`);
-        if (response.data) {
-          setMenu(menu.filter((item) => item.id !== id)); // Update UI after deletion
-        } else {
-          console.error("Failed to delete menu item.");
-        }
-      } catch (error) {
-        console.error("Error deleting menu item:", error);
+    try {
+      const response = await axios.delete(`http://localhost:8080/vendor/removeMenu/${id}`);
+      if (response.data) {
+        setMenu(menu.filter((item) => item.id !== id));
+      } else {
+        console.error("Failed to delete menu item.");
       }
+    } catch (error) {
+      console.error("Error deleting menu item:", error);
     }
   };
 

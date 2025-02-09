@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
 import axios from "axios";
 
 const VendorList = () => {
@@ -30,10 +32,10 @@ const VendorList = () => {
           name: newVendor,
           role: "ROLE_VENDOR",
         };
-  
+
         // Send POST request to add vendor
         const response = await axios.post("http://localhost:8080/admin/addVendor", userDTO);
-  
+
         if (response.data) {
           fetchVendors(); // Refresh vendor list
           setNewVendor("");
@@ -43,7 +45,7 @@ const VendorList = () => {
       }
     }
   };
-  
+
 
   // Remove vendor
   const handleRemoveVendor = async (username) => {
@@ -105,7 +107,11 @@ const VendorList = () => {
             Add Vendor
           </button>
         </div>
+        <Link to="/admin" className="back-link">
+          Back to Admin Dashboard
+        </Link>
       </div>
+
     </div>
   );
 };
